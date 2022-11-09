@@ -5,7 +5,12 @@ import NavigationStackManager from "./NavigationStackManager";
 
 let dummyPop = false;
 
+
+// http://localhost:3000/12
+// https://navigationmodule.netlify.app/123
+
 const popStateHandler = (event) => {
+    console.log(event.state)
     if(dummyPop) {
         dummyPop = false;
         NavigationModule.dummyPush(NavigationModule.getCurrentScreen());
@@ -16,11 +21,13 @@ const popStateHandler = (event) => {
     const shouldClose = microfrontendWillClose();
     if(shouldClose) {
         // RenderModule.activateScreen(window.history.state.routeId);
-        NavigationModule.setCurrentScreen(event.state.routeId);
+        
         // TODO - figure out the screen to be removed
-        const lastScreenId = NavigationStackManager.pop();
-        RenderModule.removeScreen(lastScreenId);
-        RenderModule.activateScreen(event.state.routeId);
+        if(event.state.routeId !== 0) {
+            NavigationModule.setCurrentScreen(event.state.routeId);            const lastScreenId = NavigationStackManager.pop();
+            RenderModule.removeScreen(lastScreenId);
+            RenderModule.activateScreen(event.state.routeId);
+        }
         // // this approach depends on the order of the screens
         
         
